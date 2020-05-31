@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vue,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基础 组件的data选项必须是个函数，这样每个实例都可以维护被返回对象的独立的拷贝。也就是，使用多个组件时(如组件复用时），彼此不会相互干扰。 12345678// 错误用法data:&amp;#123;count : 0&amp;#125;// 推荐用法data: function()&amp;#123;    return &amp;#123;        count: 0;    &amp;#125;&amp;#125;  通常一个应用">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vuejs组件相关">
+<meta property="og:url" content="https://flybids.github.io/2019/08/01/vuejs组件相关/index.html">
+<meta property="og:site_name" content="Redo">
+<meta property="og:description" content="基础 组件的data选项必须是个函数，这样每个实例都可以维护被返回对象的独立的拷贝。也就是，使用多个组件时(如组件复用时），彼此不会相互干扰。 12345678// 错误用法data:&amp;#123;count : 0&amp;#125;// 推荐用法data: function()&amp;#123;    return &amp;#123;        count: 0;    &amp;#125;&amp;#125;  通常一个应用">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://cn.vuejs.org/images/components.png">
+<meta property="og:updated_time" content="2019-08-01T01:35:46.097Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vuejs组件相关">
+<meta name="twitter:description" content="基础 组件的data选项必须是个函数，这样每个实例都可以维护被返回对象的独立的拷贝。也就是，使用多个组件时(如组件复用时），彼此不会相互干扰。 12345678// 错误用法data:&amp;#123;count : 0&amp;#125;// 推荐用法data: function()&amp;#123;    return &amp;#123;        count: 0;    &amp;#125;&amp;#125;  通常一个应用">
+<meta name="twitter:image" content="https://cn.vuejs.org/images/components.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://flybids.github.io/2019/08/01/vuejs组件相关/">
+
+
+
+
+
+  <title>vuejs组件相关 | Redo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Redo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">flybid's blog</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://flybids.github.io/2019/08/01/vuejs组件相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huang Gang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Redo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">vuejs组件相关</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-01T09:35:46+08:00">
+                2019-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><ul>
+<li><p>组件的data选项必须是个函数，这样每个实例都可以维护被返回对象的独立的拷贝。也就是，使用多个组件时(如组件复用时），彼此不会相互干扰。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误用法</span></span><br><span class="line">data:&#123;<span class="attr">count</span> : <span class="number">0</span>&#125;</span><br><span class="line"><span class="comment">// 推荐用法</span></span><br><span class="line">data: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        count: <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通常一个应用会以一颗嵌套的组件树的形式组织。在使用组件时，必须先注册组件，注册组件的方式包括全局注册和局部注册两种。全局注册的组件可以用在其被注册之后的任何 (通过 <code>new Vue</code>) 新创建的 Vue 根实例，也包括其组件树中的所有子组件的模板中。<img src="https://cn.vuejs.org/images/components.png" alt="Component Tree"></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 全局注册</span><br><span class="line">Vue.component(&apos;my-component-name&apos;, &#123;</span><br><span class="line">  // ... options ...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>props接收父组件传来的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 子组件</span><br><span class="line">Vue.component(&apos;blog-post&apos;, &#123;</span><br><span class="line">  props: [&apos;title&apos;],</span><br><span class="line">  template: &apos;&lt;h3&gt;&#123;&#123; title &#125;&#125;&lt;/h3&gt;&apos;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 父组件</span><br><span class="line">&lt;blog-post title=&quot;My journey with Vue&quot;&gt;&lt;/blog-post&gt;</span><br><span class="line">&lt;blog-post title=&quot;Blogging with Vue&quot;&gt;&lt;/blog-post&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>组件必须只能是单个根组件</p>
+</li>
+<li><p>监听子组件事件，也可以理解为子组件传数据到父组件，和props相反</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 父组件 接受enlarge-text值，并 +0.1</span><br><span class="line">&lt;blog-post</span><br><span class="line">  ...</span><br><span class="line">  v-on:enlarge-text=&quot;postFontSize += 0.1&quot;</span><br><span class="line">&gt;&lt;/blog-post&gt;</span><br><span class="line"></span><br><span class="line">// 子组件 blog-post发送enlarge-text值</span><br><span class="line">&lt;button v-on:click=&quot;$emit(&apos;enlarge-text&apos;)&quot;&gt;</span><br><span class="line">  Enlarge text</span><br><span class="line">&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>插槽的使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 使用组件</span><br><span class="line">&lt;alert-box&gt;</span><br><span class="line">  Something bad happened.</span><br><span class="line">&lt;/alert-box&gt;</span><br><span class="line"></span><br><span class="line">// 组件</span><br><span class="line">Vue.component(&apos;alert-box&apos;, &#123;</span><br><span class="line">  template: `</span><br><span class="line">    &lt;div class=&quot;demo-alert-box&quot;&gt;</span><br><span class="line">      &lt;strong&gt;Error!&lt;/strong&gt;</span><br><span class="line">      &lt;slot&gt;&lt;/slot&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  `</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>效果如下：</p>
+<p><strong>Error! </strong> Something bad happened.</p>
+</li>
+<li><p>动态组件</p>
+<p>有的时候，在不同组件之间进行动态切换是非常有用的，比如在一个多标签的界面里，进行tab页的切换效果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 组件会在 `currentTabComponent` 改变时改变 --&gt;</span><br><span class="line">&lt;component v-bind:is=&quot;currentTabComponent&quot;&gt;&lt;/component&gt;</span><br></pre></td></tr></table></figure>
+<p>currentTabComponent可以包括已注册组件的名字或者一个组件的选项对象。</p>
+</li>
+</ul>
+<h3 id="深入组件"><a href="#深入组件" class="headerlink" title="深入组件"></a>深入组件</h3><h4 id="组件的注册"><a href="#组件的注册" class="headerlink" title="组件的注册"></a>组件的注册</h4><ul>
+<li><p>注册组件是，需要给组件名</p>
+</li>
+<li><p>组件名的命名要求语义化，同时小写，推荐xxx-xxx-xxx形式</p>
+</li>
+<li><p>局部注册组件的使用示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import ComponentA from &apos;./ComponentA.vue&apos;</span><br><span class="line">export default &#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    ComponentA</span><br><span class="line">  &#125;,</span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对于通用的基础组件，如按钮，输入框等等，可以使用 <code>require.context</code> 只全局注册这些非常通用的基础组件。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在应用入口文件 (比如 src/main.js) 中全局导入基础组件的示例代码</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> upperFirst <span class="keyword">from</span> <span class="string">'lodash/upperFirst'</span></span><br><span class="line"><span class="keyword">import</span> camelCase <span class="keyword">from</span> <span class="string">'lodash/camelCase'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> requireComponent = <span class="built_in">require</span>.context(</span><br><span class="line">  <span class="comment">// 其组件目录的相对路径</span></span><br><span class="line">  <span class="string">'./components'</span>,</span><br><span class="line">  <span class="comment">// 是否查询其子目录</span></span><br><span class="line">  <span class="literal">false</span>,</span><br><span class="line">  <span class="comment">// 匹配基础组件文件名的正则表达式</span></span><br><span class="line">  /Base[A-Z]\w+\.(vue|js)$/</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">requireComponent.keys().forEach(<span class="function"><span class="params">fileName</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 获取组件配置</span></span><br><span class="line">  <span class="keyword">const</span> componentConfig = requireComponent(fileName)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 获取组件的 PascalCase 命名</span></span><br><span class="line">  <span class="keyword">const</span> componentName = upperFirst(</span><br><span class="line">    camelCase(</span><br><span class="line">      <span class="comment">// 获取和目录深度无关的文件名</span></span><br><span class="line">      fileName</span><br><span class="line">        .split(<span class="string">'/'</span>)</span><br><span class="line">        .pop()</span><br><span class="line">        .replace(<span class="regexp">/\.\w+$/</span>, <span class="string">''</span>)</span><br><span class="line">    )</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 全局注册组件</span></span><br><span class="line">  Vue.component(</span><br><span class="line">    componentName,</span><br><span class="line">    <span class="comment">// 如果这个组件选项是通过 `export default` 导出的，</span></span><br><span class="line">    <span class="comment">// 那么就会优先使用 `.default`，</span></span><br><span class="line">    <span class="comment">// 否则回退到使用模块的根。</span></span><br><span class="line">    componentConfig.default || componentConfig</span><br><span class="line">  )</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="Prop"><a href="#Prop" class="headerlink" title="Prop"></a>Prop</h4><ul>
+<li><p>Prop的大小写，推荐kebab-case,也可以camelCase</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(&apos;blog-post&apos;, &#123;</span><br><span class="line">  // 在 JavaScript 中是 camelCase 的</span><br><span class="line">  props: [&apos;postTitle&apos;],</span><br><span class="line">  template: &apos;&lt;h3&gt;&#123;&#123; postTitle &#125;&#125;&lt;/h3&gt;&apos;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 在 HTML 中是 kebab-case 的 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">blog-post</span> <span class="attr">post-title</span>=<span class="string">"hello!"</span>&gt;</span><span class="tag">&lt;/<span class="name">blog-post</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>props可以参数类型检查</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">props: &#123;</span><br><span class="line">  title: String,</span><br><span class="line">  // 多个可能的类型</span><br><span class="line">  likes: [String, Number],</span><br><span class="line">  isPublished: Boolean,</span><br><span class="line">  commentIds: Array,</span><br><span class="line"> // 必填的字符串</span><br><span class="line">    propC: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      required: true</span><br><span class="line">  &#125;,</span><br><span class="line"> // 带有默认值的数字</span><br><span class="line">  propD: &#123;</span><br><span class="line">    type: Number,</span><br><span class="line">    default: 100</span><br><span class="line">  &#125;,</span><br><span class="line">// 自定义验证函数</span><br><span class="line">    propF: &#123;</span><br><span class="line">      validator: function (value) &#123;</span><br><span class="line">        // 这个值必须匹配下列字符串中的一个</span><br><span class="line">        return [&apos;success&apos;, &apos;warning&apos;, &apos;danger&apos;].indexOf(value) !== -1</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  author: Object,</span><br><span class="line">  callback: Function,</span><br><span class="line">  contactsPromise: Promise // or any other constructor</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 title=”value”的形式实现传递静态Prop,:title=”value”传递动态Prop。prop可以是数字，布尔值，数组，对象。</p>
+</li>
+<li><p>单向数据流，从父组件到子组件。如果在子组件中修改prop，会发出警告。</p>
+</li>
+</ul>
+<h4 id="自定义事件"><a href="#自定义事件" class="headerlink" title="自定义事件"></a>自定义事件</h4><ul>
+<li><p>事件名始终使用kebab-case的形式，因为事件名不同于组件和prop，不会自动转换大小写，所以可能无法匹配。</p>
+</li>
+<li><p>自定义组件的v-model</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(&apos;base-checkbox&apos;, &#123;</span><br><span class="line">  model: &#123;</span><br><span class="line">    prop: &apos;checked&apos;,</span><br><span class="line">    event: &apos;change&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    checked: Boolean</span><br><span class="line">  &#125;,</span><br><span class="line">  template: `</span><br><span class="line">    &lt;input</span><br><span class="line">      type=&quot;checkbox&quot;</span><br><span class="line">      v-bind:checked=&quot;checked&quot;</span><br><span class="line">      v-on:change=&quot;$emit(&apos;change&apos;, $event.target.checked)&quot;</span><br><span class="line">    &gt;</span><br><span class="line">  `</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;base-checkbox v-model=&quot;lovingVue&quot;&gt;&lt;/base-checkbox&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将原生事件绑定到组件的根元素上，可以使用.native,但是当这个根元素无法触发该事件，如label无法触发focus事件时，此时改绑定事件将失效。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;test-input v-on:focus.native = &quot;onFocus&quot;&gt;&lt;/test-input&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>某些情况下，需要对父组件传给子组件的prop进行双向绑定，此时就需要这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;text-document :title.sync = &quot;doc.title&quot;&gt;&lt;/text-document&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this.$emmit(&apos;update:title&apos;,newTitle)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="插槽"><a href="#插槽" class="headerlink" title="插槽"></a>插槽</h4><h5 id="插槽内容"><a href="#插槽内容" class="headerlink" title="插槽内容 \"></a>插槽内容 \<slot></slot></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;navigation-link url=&quot;/profile&quot;&gt;</span><br><span class="line">  可以是文本，HTML,组件等</span><br><span class="line">&lt;/navigation-link&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;a</span><br><span class="line">  v-bind:href=&quot;url&quot;</span><br><span class="line">  class=&quot;nav-link&quot;</span><br><span class="line">&gt;</span><br><span class="line">  &lt;slot&gt;&lt;/slot&gt;</span><br><span class="line">&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;navigation-link url=&quot;/profile&quot;&gt;</span><br><span class="line">  Clicking here will send you to: &#123;&#123; url &#125;&#125;</span><br><span class="line">  &lt;!--</span><br><span class="line">  这里的 `url` 会是 undefined，因为 &quot;/profile&quot; 是</span><br><span class="line">  _传递给_ &lt;navigation-link&gt; 的而不是</span><br><span class="line">  在 &lt;navigation-link&gt; 组件*内部*定义的。</span><br><span class="line">  --&gt;</span><br><span class="line">&lt;/navigation-link&gt;</span><br></pre></td></tr></table></figure>
+<p>父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。</p>
+<h4 id="动态组件-amp-异步组件"><a href="#动态组件-amp-异步组件" class="headerlink" title="动态组件&amp;异步组件"></a>动态组件&amp;异步组件</h4><h5 id="动态组件中使用keep-alive"><a href="#动态组件中使用keep-alive" class="headerlink" title="动态组件中使用keep-alive"></a>动态组件中使用keep-alive</h5><p>切换组件时，会保持这些组件的状态，避免重复渲染。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 失活的组件将会被缓存！--&gt;</span><br><span class="line">&lt;keep-alive&gt;</span><br><span class="line">  &lt;component v-bind:is=&quot;currentTabComponent&quot;&gt;&lt;/component&gt;</span><br><span class="line">&lt;/keep-alive&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="处理边界情况"><a href="#处理边界情况" class="headerlink" title="处理边界情况"></a>处理边界情况</h4><h5 id="访问元素-amp-组件"><a href="#访问元素-amp-组件" class="headerlink" title="访问元素&amp;组件"></a>访问元素&amp;组件</h5><ul>
+<li><p>根实例 this.$root</p>
+</li>
+<li><p>父级组件实例 this.$parent</p>
+</li>
+<li><p>子组件实例</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">base-input</span> <span class="attr">ref</span>=<span class="string">"usernameInput"</span>&gt;</span><span class="tag">&lt;/<span class="name">base-input</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.$refs.usernameInput</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/01/vue-源码学习总结(一)/" rel="next" title="vuejs运用机制概览">
+                <i class="fa fa-chevron-left"></i> vuejs运用机制概览
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/01/组件开发流程/" rel="prev" title="基础组件开发二三事">
+                基础组件开发二三事 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Huang Gang</p>
+              <p class="site-description motion-element" itemprop="description">flybid's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础"><span class="nav-number">1.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深入组件"><span class="nav-number">2.</span> <span class="nav-text">深入组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#组件的注册"><span class="nav-number">2.1.</span> <span class="nav-text">组件的注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Prop"><span class="nav-number">2.2.</span> <span class="nav-text">Prop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义事件"><span class="nav-number">2.3.</span> <span class="nav-text">自定义事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#插槽"><span class="nav-number">2.4.</span> <span class="nav-text">插槽</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#插槽内容"><span class="nav-number">2.4.1.</span> <span class="nav-text">插槽内容 \</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#作用域"><span class="nav-number">2.4.2.</span> <span class="nav-text">作用域</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态组件-amp-异步组件"><span class="nav-number">2.5.</span> <span class="nav-text">动态组件&amp;异步组件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#动态组件中使用keep-alive"><span class="nav-number">2.5.1.</span> <span class="nav-text">动态组件中使用keep-alive</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#处理边界情况"><span class="nav-number">2.6.</span> <span class="nav-text">处理边界情况</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#访问元素-amp-组件"><span class="nav-number">2.6.1.</span> <span class="nav-text">访问元素&amp;组件</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Huang Gang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vue,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="序言在学习并使用vue框架开发了几个项目后，发现自己对vue的一些基本属性和概念有所疏漏。闲暇之余，便重拾vue官网文档，见有不熟悉之处，便摘录余下。以后时有更删。 Vue实例创建实例1new Vue(&amp;#123;&amp;#125;) 数据与方法可以使用Object.freeze()冻结一个对象，使对象的属性无法被修改，但是响应式系统也无法追踪变化。 123let obj = &amp;#123;foo : &amp;">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vuejs基础拾遗（一）">
+<meta property="og:url" content="https://flybids.github.io/2019/08/01/vuejs拾遗/index.html">
+<meta property="og:site_name" content="Redo">
+<meta property="og:description" content="序言在学习并使用vue框架开发了几个项目后，发现自己对vue的一些基本属性和概念有所疏漏。闲暇之余，便重拾vue官网文档，见有不熟悉之处，便摘录余下。以后时有更删。 Vue实例创建实例1new Vue(&amp;#123;&amp;#125;) 数据与方法可以使用Object.freeze()冻结一个对象，使对象的属性无法被修改，但是响应式系统也无法追踪变化。 123let obj = &amp;#123;foo : &amp;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-01T01:35:46.096Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vuejs基础拾遗（一）">
+<meta name="twitter:description" content="序言在学习并使用vue框架开发了几个项目后，发现自己对vue的一些基本属性和概念有所疏漏。闲暇之余，便重拾vue官网文档，见有不熟悉之处，便摘录余下。以后时有更删。 Vue实例创建实例1new Vue(&amp;#123;&amp;#125;) 数据与方法可以使用Object.freeze()冻结一个对象，使对象的属性无法被修改，但是响应式系统也无法追踪变化。 123let obj = &amp;#123;foo : &amp;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://flybids.github.io/2019/08/01/vuejs拾遗/">
+
+
+
+
+
+  <title>vuejs基础拾遗（一） | Redo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Redo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">flybid's blog</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://flybids.github.io/2019/08/01/vuejs拾遗/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huang Gang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Redo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">vuejs基础拾遗（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-01T09:35:46+08:00">
+                2019-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h3><p>在学习并使用vue框架开发了几个项目后，发现自己对vue的一些基本属性和概念有所疏漏。闲暇之余，便重拾vue官网文档，见有不熟悉之处，便摘录余下。以后时有更删。</p>
+<h3 id="Vue实例"><a href="#Vue实例" class="headerlink" title="Vue实例"></a>Vue实例</h3><h4 id="创建实例"><a href="#创建实例" class="headerlink" title="创建实例"></a>创建实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new Vue(&#123;&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="数据与方法"><a href="#数据与方法" class="headerlink" title="数据与方法"></a>数据与方法</h4><p>可以使用Object.freeze()冻结一个对象，使对象的属性无法被修改，但是响应式系统也无法追踪变化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let obj = &#123;foo : &apos;bar&apos;&#125;</span><br><span class="line">Object.freeze(obj)</span><br><span class="line">new Vue(&#123;el:&apos;#app&apos;, data:obj&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><ul>
+<li>生命周期函数不建议使用箭头函数，否则会有this的指向问题</li>
+<li>生命周期<ol>
+<li>beforeCreate</li>
+<li>created</li>
+<li>beforeMount</li>
+<li>mounted</li>
+<li>beforeUpdate</li>
+<li>updated</li>
+<li>beforeDestroy</li>
+<li>destroyed</li>
+</ol>
+</li>
+</ul>
+<h3 id="模板语法"><a href="#模板语法" class="headerlink" title="模板语法"></a>模板语法</h3><h4 id="插值"><a href="#插值" class="headerlink" title="插值"></a>插值</h4><ul>
+<li><p>原始HTML,把插值按照HTML进行解析</p>
+<p>动态渲染任意HTML比较危险，容易导致xss攻击。<strong>只对可信内容使用HTML插值，绝不对用户提供的内容使用插值</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;</span><br><span class="line">    Using: &lt;span v-html=&quot;rawHtml&quot;&gt;&lt;/span&gt;</span><br><span class="line">&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用v-once指令，一次性插值，当数据更新时，插值处的内容不更新。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span v-once&gt;&#123;&#123; msg &#125;&#125;&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h4><ul>
+<li>v-if  </li>
+<li>v-show</li>
+<li>v-bind  等同于 :  绑定值</li>
+<li>v-on 等同于@ 绑定dom事件</li>
+</ul>
+<h3 id="计算属性和侦听器"><a href="#计算属性和侦听器" class="headerlink" title="计算属性和侦听器"></a>计算属性和侦听器</h3><h4 id="计算属性"><a href="#计算属性" class="headerlink" title="计算属性"></a>计算属性</h4><ul>
+<li><p>对于任何复杂逻辑，都应当使用计算属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;</span><br><span class="line">    &#123;&#123; reverseMsg &#125;&#125;</span><br><span class="line">&lt;/p&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">var vm = new Vue(&#123;</span><br><span class="line">el:&apos;#example&apos;,</span><br><span class="line">data:&#123;</span><br><span class="line">msg: &apos;Hello&apos;</span><br><span class="line">&#125;,</span><br><span class="line">computed:&#123;</span><br><span class="line">reverseMsg: function()&#123;</span><br><span class="line">return this.msg.split(&apos;&apos;).reverse().join(&apos;&apos;)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>vs methods</p>
+<p>computed中的方法动态绑定相关的值，如上述的msg.当msg变化时，会重新执行渲染。同时，只要msg没有变化，即便多次使用reverseMsg也不会重复执行多次reverseMsg，相当于缓存。</p>
+</li>
+<li><p>vs watch</p>
+<p>可以使用computed的话，就不要使用watch.使用watch可能代码重复等。</p>
+</li>
+<li><p>setter</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  fullName: &#123;</span><br><span class="line">    // getter</span><br><span class="line">    get: function () &#123;</span><br><span class="line">      return this.firstName + &apos; &apos; + this.lastName</span><br><span class="line">    &#125;,</span><br><span class="line">    // setter</span><br><span class="line">    set: function (newValue) &#123;</span><br><span class="line">      var names = newValue.split(&apos; &apos;)</span><br><span class="line">      this.firstName = names[0]</span><br><span class="line">      this.lastName = names[names.length - 1]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="侦听器"><a href="#侦听器" class="headerlink" title="侦听器"></a>侦听器</h4><p>当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。除了 <code>watch</code> 选项之外，您还可以使用命令式的 <a href="https://cn.vuejs.org/v2/api/#vm-watch" target="_blank" rel="noopener">vm.$watch API</a>。</p>
+</li>
+</ul>
+<h3 id="Class与Style绑定"><a href="#Class与Style绑定" class="headerlink" title="Class与Style绑定"></a>Class与Style绑定</h3><h4 id="绑定HTML-Class"><a href="#绑定HTML-Class" class="headerlink" title="绑定HTML Class"></a>绑定HTML Class</h4><ul>
+<li><p>对象语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-bind:class=&quot;classObject&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">data: &#123;</span><br><span class="line">  isActive: true,</span><br><span class="line">  error: null</span><br><span class="line">&#125;,</span><br><span class="line">computed: &#123;</span><br><span class="line">  classObject: function () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      active: this.isActive &amp;&amp; !this.error,</span><br><span class="line">      &apos;text-danger&apos;: this.error &amp;&amp; this.error.type === &apos;fatal&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">    .active&#123;&#125;</span><br><span class="line">    .text-danger&#123;&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数组语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-bind:class=&quot;[activeClass, errorClass]&quot;&gt;&lt;/div&gt;</span><br><span class="line">data: &#123;</span><br><span class="line">  activeClass: &apos;active&apos;,</span><br><span class="line">  errorClass: &apos;text-danger&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>渲染为：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"active text-danger"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用在组件上</p>
+<p>当在一个自定义组件上使用 <code>class</code> 属性时，这些类将被添加到该组件的根元素上面。这个元素上已经存在的类不会被覆盖。</p>
+</li>
+</ul>
+<h4 id="绑定内联样式"><a href="#绑定内联样式" class="headerlink" title="绑定内联样式"></a>绑定内联样式</h4><ul>
+<li><p>对象语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-bind:style=&quot;&#123; color: activeColor, fontSize: fontSize + &apos;px&apos; &#125;&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">data: &#123;</span><br><span class="line">  activeColor: &apos;red&apos;,</span><br><span class="line">  fontSize: 30</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>更推荐：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-bind:style=&quot;styleObject&quot;&gt;&lt;/div&gt;</span><br><span class="line">data: &#123;</span><br><span class="line">  styleObject: &#123;</span><br><span class="line">    color: &apos;red&apos;,</span><br><span class="line">    fontSize: &apos;13px&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数组语法</p>
+<p>将多个样式对象应用到同一个元素上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-bind:style=&quot;[baseStyles, overridingStyles]&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自动添加前缀</p>
+<p>当 <code>v-bind:style</code> 使用需要添加<a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Vendor_Prefix" target="_blank" rel="noopener">浏览器引擎前缀</a>的 CSS 属性时，如 <code>transform</code>，Vue.js 会<strong>自动侦测并添加相应的前缀</strong>。</p>
+</li>
+<li><p>多重值</p>
+<p>v2.3.0+</p>
+<p>为 <code>style</code> 绑定中的属性提供一个包含多个值的数组，常用于提供多个带前缀的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div :style=&quot;&#123; display: [&apos;-webkit-box&apos;, &apos;-ms-flexbox&apos;, &apos;flex&apos;] &#125;&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>在本例中，如果浏览器支持不带浏览器前缀的 flexbox，那么就只会渲染 <code>display: flex</code>。</p>
+</li>
+</ul>
+<h3 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h3><h4 id="v-if-vs-v-show"><a href="#v-if-vs-v-show" class="headerlink" title="v-if vs v-show"></a>v-if vs v-show</h4><ul>
+<li><p>v-if</p>
+<p><code>v-if</code> 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。</p>
+<p><code>v-if</code> 也是<strong>惰性的</strong>：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。</p>
+</li>
+<li><p>v-show</p>
+<p>不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。</p>
+</li>
+<li><p>如何选择</p>
+<p><code>v-if</code> 有更高的切换开销，而 <code>v-show</code> 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 <code>v-show</code> 较好；如果在运行时条件很少改变，则使用 <code>v-if</code> 较好。</p>
+</li>
+</ul>
+<h4 id="不推荐同时使用-v-if-v-for"><a href="#不推荐同时使用-v-if-v-for" class="headerlink" title="不推荐同时使用 v-if v-for"></a>不推荐同时使用 v-if v-for</h4><p><code>v-for</code> 具有比 <code>v-if</code> 更高的优先级</p>
+<h3 id="列表渲染"><a href="#列表渲染" class="headerlink" title="列表渲染"></a>列表渲染</h3><h4 id="v-for"><a href="#v-for" class="headerlink" title="v-for"></a>v-for</h4><ol>
+<li>v-for = “item in items”</li>
+<li>v-for = “item of items”</li>
+</ol>
+<p>可以遍历对象和数组，在遍历对象时，是按 <code>Object.keys()</code> 的结果遍历，但是不能保证它的结果在不同的 JavaScript 引擎下是一致的。</p>
+<h4 id="对象更改检测注意事项"><a href="#对象更改检测注意事项" class="headerlink" title="对象更改检测注意事项"></a>对象更改检测注意事项</h4><p>由于 JavaScript 的限制，<strong>Vue 不能检测对象属性的添加或删除</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var vm = new Vue(&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    userProfile: &#123;</span><br><span class="line">      name: &apos;Anika&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>对于已经创建的实例，Vue 不能动态添加根级别的响应式属性。但是，可以使用 <code>Vue.set(object, key, value)</code> 方法向嵌套对象添加响应式属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vue.set(vm.userProfile, &apos;age&apos;, 27)</span><br></pre></td></tr></table></figure>
+<p>你还可以使用 <code>vm.$set</code> 实例方法，它只是全局 <code>Vue.set</code> 的别名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm.$set(vm.userProfile, &apos;age&apos;, 27)</span><br></pre></td></tr></table></figure>
+<h4 id="过滤和排序"><a href="#过滤和排序" class="headerlink" title="过滤和排序"></a>过滤和排序</h4><p>有时，我们想要显示一个数组的过滤或排序副本，而不实际改变或重置原始数据。在这种情况下，可以创建返回过滤或排序数组的计算属性。</p>
+<p>在计算属性不适用的情况下 (例如，在嵌套 <code>v-for</code> 循环中) 你可以使用一个 method 方法。</p>
+<h4 id="一段取值范围"><a href="#一段取值范围" class="headerlink" title="一段取值范围"></a>一段取值范围</h4><p><code>v-for</code> 也可以取整数。在这种情况下，它将重复多次模板。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">  &lt;span v-for=&quot;n in 10&quot;&gt;&#123;&#123; n &#125;&#125; &lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>渲染为：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 2 3 4 5 6 7 8 9 10</span><br></pre></td></tr></table></figure>
+<h4 id="v-for-on-a"><a href="#v-for-on-a" class="headerlink" title="v-for on a \"></a>v-for on a \<template></template></h4><p>类似于 <code>v-if</code>，你也可以利用带有 <code>v-for</code> 的 <code>&lt;template&gt;</code> 渲染多个元素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;template v-for=&quot;item in items&quot;&gt;</span><br><span class="line">    &lt;li&gt;&#123;&#123; item.msg &#125;&#125;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;divider&quot; role=&quot;presentation&quot;&gt;&lt;/li&gt;</span><br><span class="line">  &lt;/template&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/01/let-和-const/" rel="next" title="let 和 const">
+                <i class="fa fa-chevron-left"></i> let 和 const
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/01/vue-源码学习总结(一)/" rel="prev" title="vuejs运用机制概览">
+                vuejs运用机制概览 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Huang Gang</p>
+              <p class="site-description motion-element" itemprop="description">flybid's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#序言"><span class="nav-number">1.</span> <span class="nav-text">序言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue实例"><span class="nav-number">2.</span> <span class="nav-text">Vue实例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建实例"><span class="nav-number">2.1.</span> <span class="nav-text">创建实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据与方法"><span class="nav-number">2.2.</span> <span class="nav-text">数据与方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生命周期"><span class="nav-number">2.3.</span> <span class="nav-text">生命周期</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板语法"><span class="nav-number">3.</span> <span class="nav-text">模板语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#插值"><span class="nav-number">3.1.</span> <span class="nav-text">插值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指令"><span class="nav-number">3.2.</span> <span class="nav-text">指令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算属性和侦听器"><span class="nav-number">4.</span> <span class="nav-text">计算属性和侦听器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#计算属性"><span class="nav-number">4.1.</span> <span class="nav-text">计算属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#侦听器"><span class="nav-number">4.2.</span> <span class="nav-text">侦听器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Class与Style绑定"><span class="nav-number">5.</span> <span class="nav-text">Class与Style绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#绑定HTML-Class"><span class="nav-number">5.1.</span> <span class="nav-text">绑定HTML Class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绑定内联样式"><span class="nav-number">5.2.</span> <span class="nav-text">绑定内联样式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件渲染"><span class="nav-number">6.</span> <span class="nav-text">条件渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#v-if-vs-v-show"><span class="nav-number">6.1.</span> <span class="nav-text">v-if vs v-show</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不推荐同时使用-v-if-v-for"><span class="nav-number">6.2.</span> <span class="nav-text">不推荐同时使用 v-if v-for</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表渲染"><span class="nav-number">7.</span> <span class="nav-text">列表渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#v-for"><span class="nav-number">7.1.</span> <span class="nav-text">v-for</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象更改检测注意事项"><span class="nav-number">7.2.</span> <span class="nav-text">对象更改检测注意事项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#过滤和排序"><span class="nav-number">7.3.</span> <span class="nav-text">过滤和排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一段取值范围"><span class="nav-number">7.4.</span> <span class="nav-text">一段取值范围</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#v-for-on-a"><span class="nav-number">7.5.</span> <span class="nav-text">v-for on a \</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Huang Gang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

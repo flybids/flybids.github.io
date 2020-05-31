@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="git,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="rebase和merge使用merge会使commit的历史中出现分叉，这种分叉再汇合的结构显得混乱，难以管理。此时就需要用到rebase变基。 rebase: 把你指定的 commit 以及它所在的 commit 串，以指定的目标 commit 为基础，依次重新提交一次。 动态示意图：  merge  1git merge branch1  rebase    12git checkout br">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git 高阶">
+<meta property="og:url" content="https://flybids.github.io/2019/08/01/git-高阶/index.html">
+<meta property="og:site_name" content="Redo">
+<meta property="og:description" content="rebase和merge使用merge会使commit的历史中出现分叉，这种分叉再汇合的结构显得混乱，难以管理。此时就需要用到rebase变基。 rebase: 把你指定的 commit 以及它所在的 commit 串，以指定的目标 commit 为基础，依次重新提交一次。 动态示意图：  merge  1git merge branch1  rebase    12git checkout br">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://flybids.github.io/img/merge">
+<meta property="og:image" content="https://flybids.github.io/img/rebase">
+<meta property="og:updated_time" content="2019-08-01T01:35:46.094Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git 高阶">
+<meta name="twitter:description" content="rebase和merge使用merge会使commit的历史中出现分叉，这种分叉再汇合的结构显得混乱，难以管理。此时就需要用到rebase变基。 rebase: 把你指定的 commit 以及它所在的 commit 串，以指定的目标 commit 为基础，依次重新提交一次。 动态示意图：  merge  1git merge branch1  rebase    12git checkout br">
+<meta name="twitter:image" content="https://flybids.github.io/img/merge">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://flybids.github.io/2019/08/01/git-高阶/">
+
+
+
+
+
+  <title>git 高阶 | Redo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Redo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">flybid's blog</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://flybids.github.io/2019/08/01/git-高阶/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huang Gang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Redo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">git 高阶</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-01T09:35:46+08:00">
+                2019-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="rebase和merge"><a href="#rebase和merge" class="headerlink" title="rebase和merge"></a>rebase和merge</h2><p>使用merge会使commit的历史中出现分叉，这种分叉再汇合的结构显得混乱，难以管理。此时就需要用到<b>rebase</b><i>变基</i>。</p>
+<p>rebase: 把你指定的 commit 以及它所在的 commit 串，以指定的目标 commit 为基础，依次重新提交一次。</p>
+<p>动态示意图：</p>
+<ul>
+<li><p>merge</p>
+<p><img src="/img/merge" alt="merge示意图"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge branch1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>rebase</p>
+</li>
+</ul>
+<p><img src="/img/rebase" alt="rebase示意图"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout branch1</span><br><span class="line">git rebase master</span><br></pre></td></tr></table></figure>
+<p>另外，在 rebase 之后，记得切回 master 再 merge 一下，把 master 移到最新的 commit：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">git merge branch1</span><br></pre></td></tr></table></figure>
+<p> A—B—C topic<br>         /<br>    D—E—F—G master         &gt;==git rebase master ==&gt;  </p>
+<p> A’–B’–C’ topic<br>                 /<br>    D—E—F—G master</p>
+<p>应用场景：</p>
+<p>我在主分支commit a时新建了新分支，此时开始分叉，分叉后我又在主分支改了东西commit b，此时我后悔了，我不该在commit a时分叉的，因为commit b的东西我新分支也需要，此时用衍合，就等于我丢弃原分叉，在commit b重新分叉（原分叉的改动内容当然也是带上的，没有丢）</p>
+<h2 id="commit时提交的文件存在错误"><a href="#commit时提交的文件存在错误" class="headerlink" title="commit时提交的文件存在错误"></a>commit时提交的文件存在错误</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 修正文件</span><br><span class="line">git add 1.text</span><br><span class="line"><span class="meta">#</span># 重新commit，当前commit会替换掉之前的commit</span><br><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+<h2 id="取消当前的commit"><a href="#取消当前的commit" class="headerlink" title="取消当前的commit"></a>取消当前的commit</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD^</span><br><span class="line"><span class="meta">#</span># 撤销的提交并没有消失，只是失效了</span><br></pre></td></tr></table></figure>
+<h3 id="取消之前的commit"><a href="#取消之前的commit" class="headerlink" title="取消之前的commit"></a>取消之前的commit</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rebase --onto HEAD^^ HEAD^ branch1</span><br><span class="line"><span class="meta">#</span># 以倒数第二个 commit 为起点（起点不包含在 rebase 序列里哟），branch1 为终点，</span><br><span class="line"><span class="meta">#</span># rebase 到倒数第三个 commit 上。</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 在编辑界面中删除想撤销的 commits</span><br><span class="line">git rebase -i 哪一个commit</span><br><span class="line"><span class="meta">#</span># 在 rebase 命令中直接剔除想撤销的 commits</span><br><span class="line">git rebase --onto 哪一个commit</span><br></pre></td></tr></table></figure>
+<h2 id="错误的代码push到中央仓库了"><a href="#错误的代码push到中央仓库了" class="headerlink" title="错误的代码push到中央仓库了"></a>错误的代码push到中央仓库了</h2><h3 id="错误代码还在自己的分支上"><a href="#错误代码还在自己的分支上" class="headerlink" title="错误代码还在自己的分支上"></a>错误代码还在自己的分支上</h3><p>修改或删除错误的commit,然后push</p>
+<p>如果本地在上次commit之后有了修改，再push会失败，可以强行push</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin branch1 -f</span><br></pre></td></tr></table></figure>
+<h3 id="错误代码已经合并到master"><a href="#错误代码已经合并到master" class="headerlink" title="错误代码已经合并到master"></a>错误代码已经合并到master</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 撤销错误的提交（相当于增加相反的commit，覆盖之前的commit）</span><br><span class="line">git revert HEAD^</span><br><span class="line"><span class="meta">#</span># 然后push</span><br></pre></td></tr></table></figure>
+<h2 id="reset用途"><a href="#reset用途" class="headerlink" title="reset用途"></a>reset用途</h2><p>reset命令的本质：重置HEAD和他所指向的branch的位置</p>
+<p>更具参数的不同，有不同的用途：</p>
+<ul>
+<li>–hard：重置位置的同时，清空工作目录的所有改动；</li>
+<li>–soft：重置位置的同时，保留工作目录和暂存区的内容，并把重置 HEAD 的位置所导致的新的文件差异放进暂存区。</li>
+<li>–mixed（默认）：重置位置的同时，保留工作目录的内容，并清空暂存区。</li>
+</ul>
+<h2 id="checkout-本质"><a href="#checkout-本质" class="headerlink" title="checkout 本质"></a>checkout 本质</h2><p>checkout不仅可以用来切换分支，其本质是签出指定的commit</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout branch1</span><br><span class="line">git checkout HEAD^</span><br><span class="line">git checkout master~5</span><br></pre></td></tr></table></figure>
+<p>checkout只带着head走，reset带着head和branch一起走</p>
+<h2 id="stash"><a href="#stash" class="headerlink" title="stash"></a>stash</h2><p>临时需要切换分支，当前分支的改动不想提交，但是需要暂存起来，之后切换回来时可以再取出来</p>
+<p>没有没跟踪(tack)过的（即从来没有被 add 过的文件不会被 stash 起来，因为 Git 会忽略它们），需要先add,然后stash</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 存</span><br><span class="line">git stash</span><br><span class="line"><span class="meta">#</span># 取</span><br><span class="line">git stash pop</span><br></pre></td></tr></table></figure>
+<h2 id="恢复删除的branch"><a href="#恢复删除的branch" class="headerlink" title="恢复删除的branch"></a>恢复删除的branch</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 查看历史</span><br><span class="line">git reflog</span><br><span class="line"><span class="meta">#</span># 假设HEAD 的最后一次移动行为是「从 branch1 移动到 master」。而在这之后，branch1 就被删除了。</span><br><span class="line"><span class="meta">#</span># 所以它之前的那个 commit 就是 branch1 被删除之前的位置了，也就是第二行的 c08de9a。</span><br><span class="line">git checkout c08de9a</span><br><span class="line">git checkout -b branch1</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag"># git</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/01/CSS查漏补缺（二）/" rel="next" title="CSS查漏补缺（二）">
+                <i class="fa fa-chevron-left"></i> CSS查漏补缺（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/01/git深入学习之VCS/" rel="prev" title="git深入学习之VCS">
+                git深入学习之VCS <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Huang Gang</p>
+              <p class="site-description motion-element" itemprop="description">flybid's blog</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#rebase和merge"><span class="nav-number">1.</span> <span class="nav-text">rebase和merge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#commit时提交的文件存在错误"><span class="nav-number">2.</span> <span class="nav-text">commit时提交的文件存在错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#取消当前的commit"><span class="nav-number">3.</span> <span class="nav-text">取消当前的commit</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#取消之前的commit"><span class="nav-number">3.1.</span> <span class="nav-text">取消之前的commit</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误的代码push到中央仓库了"><span class="nav-number">4.</span> <span class="nav-text">错误的代码push到中央仓库了</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#错误代码还在自己的分支上"><span class="nav-number">4.1.</span> <span class="nav-text">错误代码还在自己的分支上</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误代码已经合并到master"><span class="nav-number">4.2.</span> <span class="nav-text">错误代码已经合并到master</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reset用途"><span class="nav-number">5.</span> <span class="nav-text">reset用途</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#checkout-本质"><span class="nav-number">6.</span> <span class="nav-text">checkout 本质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stash"><span class="nav-number">7.</span> <span class="nav-text">stash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#恢复删除的branch"><span class="nav-number">8.</span> <span class="nav-text">恢复删除的branch</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Huang Gang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
