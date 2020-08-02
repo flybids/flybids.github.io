@@ -243,6 +243,149 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://flybids.github.io/2019/08/01/vue-源码学习总结(一)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huang Gang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Redo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/01/vue-源码学习总结(一)/" itemprop="url">vuejs运用机制概览</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-01T09:35:46+08:00">
+                2019-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h4><p>在断断续续做过一段时间的vue项目之后，不久又掘金上看到的vue学习小册，简单浏览一遍，受益良多。所以简单的通过摘录，笔记的形式，边学习便记忆，加深自己对vue原理的理解，并帮助自己日后进一步的研究vue的源码。</p>
+<h2 id="总览vue"><a href="#总览vue" class="headerlink" title="总览vue"></a>总览vue</h2><p><img src="/img/vue" alt="内部流程图"></p>
+<h3 id="初始化和加载"><a href="#初始化和加载" class="headerlink" title="初始化和加载"></a>初始化和加载</h3><p><img src="/img/vue_1" alt="初始化及加载"></p>
+<p>在 new Vue() 之后，会调用 vue._init() 函数进行初始化，包括生成生命周期，事件，props, data, methods, computed, watch 等等。</p>
+<p>最主要的是通过Object.defineProperty设置setter和getter函数，实现响应式和依赖采集；</p>
+<p>初始化之后，通过$mount 挂载组件，存在template时，需要进行编译。</p>
+<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p><img src="/img/vue_2" alt="编译"></p>
+<ol>
+<li><p>parse阶段</p>
+<p>借助正则表达式解析template中的css,class,style,指令等，生成AST</p>
+</li>
+<li><p>optimize阶段</p>
+<p>标记静态节点，这样以后update页面需要通过patch来比较渲染dom的时候，会跳过静态节点，从而减少比较的时间，提升patch的性能，对编译过程实现优化。</p>
+</li>
+<li><p>generate阶段</p>
+<p>将AST转换为render function字符串等。</p>
+</li>
+</ol>
+<p>经过以上三个阶段之后，组件中就会存在渲染VNode节点需要的函数。</p>
+<h3 id="响应式"><a href="#响应式" class="headerlink" title="响应式"></a>响应式</h3><p><img src="/img/vue_3" alt="响应式"></p>
+<p>在初始化阶段，我们设置了getter和setter方法，分别在读取和赋值的时候触发。</p>
+<p>渲染组件的时候，会进行读取操作，触发getter函数，实现依赖收集，将观察者watcher收集放入当前闭包的订阅者Dep里面；</p>
+<p>对组件进行修改时，会触发setter函数，setter会通知之前收集的所有观察者，让他们重新渲染视图。在渲染过程中，有用到update和patch等。</p>
+<h3 id="Virtual-DOM"><a href="#Virtual-DOM" class="headerlink" title="Virtual DOM"></a>Virtual DOM</h3><p>render function 生成 vNode 节点，这些节点组成 vDom(js对真实DOM的抽象)</p>
+<h3 id="更新视图"><a href="#更新视图" class="headerlink" title="更新视图"></a>更新视图</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://flybids.github.io/2019/08/01/vuejs组件相关/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -445,7 +588,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://flybids.github.io/2019/08/01/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://flybids.github.io/2019/08/01/let-和-const/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Huang Gang">
@@ -464,7 +607,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/01/hello-world/" itemprop="url">Hello World</a></h1>
+                <a class="post-title-link" href="/2019/08/01/let-和-const/" itemprop="url">let 和 const</a></h1>
         
 
         <div class="post-meta">
@@ -516,16 +659,263 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+            <h3 id="let-命令"><a href="#let-命令" class="headerlink" title="let 命令"></a>let 命令</h3><h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><p>let 变量的作用域是在其对应的代码块，var 的变量是全局变量，会挂载在顶层变量上。</p>
+<p>对于for循环，设置循环变量的作用域是父作用域，循环体内部是单独的子作用域。同名变量在子作用域会覆盖父作用域传来的值,但是在父作用域对应变量值不受影响。具体如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i =<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)&#123;</span><br><span class="line">    <span class="keyword">let</span> i =<span class="string">'abc'</span></span><br><span class="line">    <span class="built_in">console</span>.log(i)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//abc</span></span><br><span class="line"><span class="comment">//abc</span></span><br><span class="line"><span class="comment">//abc</span></span><br></pre></td></tr></table></figure>
+<h4 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h4><p>对于用let和const声明的变量不会发生变量提升，而使用var会发生变量提升。所以，var变量在声明前使用不报错，而let和const会报错。</p>
+<p>变量提升：js从上到下执行时，分为词法分析和执行两个阶段。在词法分析阶段，包括分析形参，分析变量，分析函数声明三个部分。经过词法分析后，会将存在的变量声明和函数声明，进行一番处理，比如赋值等。具体代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a)</span><br><span class="line"><span class="keyword">var</span> a =<span class="number">12</span></span><br></pre></td></tr></table></figure>
+<p>词法分析后的代码为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="literal">undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(a)</span><br><span class="line">a=<span class="number">12</span></span><br></pre></td></tr></table></figure>
+<p>运行的结果是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">undefined</span><br></pre></td></tr></table></figure>
+<h4 id="暂时性死去TDZ"><a href="#暂时性死去TDZ" class="headerlink" title="暂时性死去TDZ"></a>暂时性死去TDZ</h4><p>由于let/const不会变量提升，在作用域内，变量声明之前的部分，对于该变量都属于死区，也就是暂时性死区。</p>
+<p>TDZ导致typeof运算符不再安全，当在变量X的暂时性死区中使用typeof检验X时，此时会抛出ReferenceError。</p>
+<h4 id="不允许重复声明"><a href="#不允许重复声明" class="headerlink" title="不允许重复声明"></a>不允许重复声明</h4><h3 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h3><p>使用{ 和 } 包裹的作用域</p>
+<h3 id="let-amp-const"><a href="#let-amp-const" class="headerlink" title="let &amp; const"></a>let &amp; const</h3><p>const声明只读变量，必须赋值，一旦声明就不能改变它的值。但是如果声明的是个对象时，可以改变对象的属性值。本质上，不可改变的是指针指向的对象，或者说内存地址所保存的数据不得改动。对于字符串，数字等简单变量，内存地址保存的就是它的值，但是对于对象，数组等保存的是指向数据的地指针。</p>
+<p>const变量的作用域只在声明的块作用域有效，没有变量提升，有TDZ.</p>
+<h4 id="冻结对象"><a href="#冻结对象" class="headerlink" title="冻结对象"></a>冻结对象</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = <span class="built_in">Object</span>.freeze(&#123;&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 常规模式时，下面一行不起作用；</span></span><br><span class="line"><span class="comment">// 严格模式时，该行会报错</span></span><br><span class="line">foo.prop = <span class="number">123</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将对象本身冻结，对象的属性也冻结</span></span><br><span class="line"><span class="keyword">var</span> constantize = <span class="function">(<span class="params">obj</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">Object</span>.freeze(obj);</span><br><span class="line">  <span class="built_in">Object</span>.keys(obj).forEach( <span class="function">(<span class="params">key, i</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> ( <span class="keyword">typeof</span> obj[key] === <span class="string">'object'</span> ) &#123;</span><br><span class="line">      constantize( obj[key] );</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="声明变量6种方式"><a href="#声明变量6种方式" class="headerlink" title="声明变量6种方式"></a>声明变量6种方式</h4><ul>
+<li>var</li>
+<li>function</li>
+<li>let</li>
+<li>const</li>
+<li>class</li>
+<li>import</li>
+</ul>
 
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://flybids.github.io/2019/08/01/vuejs拾遗/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huang Gang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Redo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/01/vuejs拾遗/" itemprop="url">vuejs基础拾遗（一）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-01T09:35:46+08:00">
+                2019-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h3><p>在学习并使用vue框架开发了几个项目后，发现自己对vue的一些基本属性和概念有所疏漏。闲暇之余，便重拾vue官网文档，见有不熟悉之处，便摘录余下。以后时有更删。</p>
+<h3 id="Vue实例"><a href="#Vue实例" class="headerlink" title="Vue实例"></a>Vue实例</h3><h4 id="创建实例"><a href="#创建实例" class="headerlink" title="创建实例"></a>创建实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new Vue(&#123;&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="数据与方法"><a href="#数据与方法" class="headerlink" title="数据与方法"></a>数据与方法</h4><p>可以使用Object.freeze()冻结一个对象，使对象的属性无法被修改，但是响应式系统也无法追踪变化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let obj = &#123;foo : &apos;bar&apos;&#125;</span><br><span class="line">Object.freeze(obj)</span><br><span class="line">new Vue(&#123;el:&apos;#app&apos;, data:obj&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><ul>
+<li>生命周期函数不建议使用箭头函数，否则会有this的指向问题</li>
+<li>生命周期<ol>
+<li>beforeCreate</li>
+<li>created</li>
+<li>beforeMount</li>
+<li>mounted</li>
+<li>beforeUpdate</li>
+<li>updated</li>
+<li>beforeDestroy</li>
+<li>destroyed</li>
+</ol>
+</li>
+</ul>
+<h3 id="模板语法"><a href="#模板语法" class="headerlink" title="模板语法"></a>模板语法</h3><h4 id="插值"><a href="#插值" class="headerlink" title="插值"></a>插值</h4><ul>
+<li><p>原始HTML,把插值按照HTML进行解析</p>
+<p>动态渲染任意HTML比较危险，容易导致xss攻击。<strong>只对可信内容使用HTML插值，绝不对用户提供的内容使用插值</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;</span><br><span class="line">    Using: &lt;span v-html=&quot;rawHtml&quot;&gt;&lt;/span&gt;</span><br><span class="line">&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用v-once指令，一次性插值，当数据更新时，插值处的内容不更新。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;span v-once&gt;&#123;&#123; msg &#125;&#125;&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h4><ul>
+<li>v-if  </li>
+<li>v-show</li>
+<li>v-bind  等同于 :  绑定值</li>
+<li>v-on 等同于@ 绑定dom事件</li>
+</ul>
+<h3 id="计算属性和侦听器"><a href="#计算属性和侦听器" class="headerlink" title="计算属性和侦听器"></a>计算属性和侦听器</h3><h4 id="计算属性"><a href="#计算属性" class="headerlink" title="计算属性"></a>计算属性</h4><ul>
+<li><p>对于任何复杂逻辑，都应当使用计算属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;</span><br><span class="line">    &#123;&#123; reverseMsg &#125;&#125;</span><br><span class="line">&lt;/p&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">var vm = new Vue(&#123;</span><br><span class="line">el:&apos;#example&apos;,</span><br><span class="line">data:&#123;</span><br><span class="line">msg: &apos;Hello&apos;</span><br><span class="line">&#125;,</span><br><span class="line">computed:&#123;</span><br><span class="line">reverseMsg: function()&#123;</span><br><span class="line">return this.msg.split(&apos;&apos;).reverse().join(&apos;&apos;)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>vs methods</p>
+<p>computed中的方法动态绑定相关的值，如上述的msg.当msg变化时，会重新执行渲染。同时，只要msg没有变化，即便多次使用reverseMsg也不会重复执行多次reverseMsg，相当于缓存。</p>
+</li>
+<li><p>vs watch</p>
+<p>可以使用computed的话，就不要使用watch.使用watch可能代码重复等。</p>
+</li>
+<li><p>setter</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  fullName: &#123;</span><br><span class="line">    // getter</span><br><span class="line">    get: function () &#123;</span><br><span class="line">      return this.firstName + &apos; &apos; + this.lastName</span><br><span class="line">    &#125;,</span><br><span class="line">    // setter</span><br><span class="line">    set: function (newValue) &#123;</span><br><span class="line">      var names = newValue.split(&apos; &apos;)</span><br><span class="line">      this.firstName = names[0]</span><br><span class="line">      this.lastName = names[names.length - 1]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="侦听器"><a href="#侦听器" class="headerlink" title="侦听器"></a>侦听器</h4><p>当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。除了 <code>watch</code> 选项之外，您还可以使用命令式的 <a href="https://cn.vuejs.org/v2/api/#vm-watch" target="_blank" rel="noopener">vm.$watch API</a>。</p>
+</li>
+</ul>
+<h3 id="Class与Style绑定"><a href="#Class与Style绑定" class="headerlink" title="Class与Style绑定"></a>Class与Style绑定</h3><h4 id="绑定HTML-Class"><a href="#绑定HTML-Class" class="headerlink" title="绑定HTML Class"></a>绑定HTML Class</h4><ul>
+<li><p>对象语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-bind:class=&quot;classObject&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">data: &#123;</span><br><span class="line">  isActive: true,</span><br><span class="line">  error: null</span><br><span class="line">&#125;,</span><br><span class="line">computed: &#123;</span><br><span class="line">  classObject: function () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      active: this.isActive &amp;&amp; !this.error,</span><br><span class="line">      &apos;text-danger&apos;: this.error &amp;&amp; this.error.type === &apos;fatal&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">    .active&#123;&#125;</span><br><span class="line">    .text-danger&#123;&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数组语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-bind:class=&quot;[activeClass, errorClass]&quot;&gt;&lt;/div&gt;</span><br><span class="line">data: &#123;</span><br><span class="line">  activeClass: &apos;active&apos;,</span><br><span class="line">  errorClass: &apos;text-danger&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>渲染为：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"active text-danger"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用在组件上</p>
+<p>当在一个自定义组件上使用 <code>class</code> 属性时，这些类将被添加到该组件的根元素上面。这个元素上已经存在的类不会被覆盖。</p>
+</li>
+</ul>
+<h4 id="绑定内联样式"><a href="#绑定内联样式" class="headerlink" title="绑定内联样式"></a>绑定内联样式</h4><ul>
+<li><p>对象语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-bind:style=&quot;&#123; color: activeColor, fontSize: fontSize + &apos;px&apos; &#125;&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">data: &#123;</span><br><span class="line">  activeColor: &apos;red&apos;,</span><br><span class="line">  fontSize: 30</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>更推荐：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-bind:style=&quot;styleObject&quot;&gt;&lt;/div&gt;</span><br><span class="line">data: &#123;</span><br><span class="line">  styleObject: &#123;</span><br><span class="line">    color: &apos;red&apos;,</span><br><span class="line">    fontSize: &apos;13px&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数组语法</p>
+<p>将多个样式对象应用到同一个元素上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-bind:style=&quot;[baseStyles, overridingStyles]&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自动添加前缀</p>
+<p>当 <code>v-bind:style</code> 使用需要添加<a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Vendor_Prefix" target="_blank" rel="noopener">浏览器引擎前缀</a>的 CSS 属性时，如 <code>transform</code>，Vue.js 会<strong>自动侦测并添加相应的前缀</strong>。</p>
+</li>
+<li><p>多重值</p>
+<p>v2.3.0+</p>
+<p>为 <code>style</code> 绑定中的属性提供一个包含多个值的数组，常用于提供多个带前缀的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div :style=&quot;&#123; display: [&apos;-webkit-box&apos;, &apos;-ms-flexbox&apos;, &apos;flex&apos;] &#125;&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>在本例中，如果浏览器支持不带浏览器前缀的 flexbox，那么就只会渲染 <code>display: flex</code>。</p>
+</li>
+</ul>
+<h3 id="条件渲染"><a href="#条件渲染" class="headerlink" title="条件渲染"></a>条件渲染</h3><h4 id="v-if-vs-v-show"><a href="#v-if-vs-v-show" class="headerlink" title="v-if vs v-show"></a>v-if vs v-show</h4><ul>
+<li><p>v-if</p>
+<p><code>v-if</code> 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。</p>
+<p><code>v-if</code> 也是<strong>惰性的</strong>：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。</p>
+</li>
+<li><p>v-show</p>
+<p>不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。</p>
+</li>
+<li><p>如何选择</p>
+<p><code>v-if</code> 有更高的切换开销，而 <code>v-show</code> 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 <code>v-show</code> 较好；如果在运行时条件很少改变，则使用 <code>v-if</code> 较好。</p>
+</li>
+</ul>
+<h4 id="不推荐同时使用-v-if-v-for"><a href="#不推荐同时使用-v-if-v-for" class="headerlink" title="不推荐同时使用 v-if v-for"></a>不推荐同时使用 v-if v-for</h4><p><code>v-for</code> 具有比 <code>v-if</code> 更高的优先级</p>
+<h3 id="列表渲染"><a href="#列表渲染" class="headerlink" title="列表渲染"></a>列表渲染</h3><h4 id="v-for"><a href="#v-for" class="headerlink" title="v-for"></a>v-for</h4><ol>
+<li>v-for = “item in items”</li>
+<li>v-for = “item of items”</li>
+</ol>
+<p>可以遍历对象和数组，在遍历对象时，是按 <code>Object.keys()</code> 的结果遍历，但是不能保证它的结果在不同的 JavaScript 引擎下是一致的。</p>
+<h4 id="对象更改检测注意事项"><a href="#对象更改检测注意事项" class="headerlink" title="对象更改检测注意事项"></a>对象更改检测注意事项</h4><p>由于 JavaScript 的限制，<strong>Vue 不能检测对象属性的添加或删除</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var vm = new Vue(&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    userProfile: &#123;</span><br><span class="line">      name: &apos;Anika&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>对于已经创建的实例，Vue 不能动态添加根级别的响应式属性。但是，可以使用 <code>Vue.set(object, key, value)</code> 方法向嵌套对象添加响应式属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vue.set(vm.userProfile, &apos;age&apos;, 27)</span><br></pre></td></tr></table></figure>
+<p>你还可以使用 <code>vm.$set</code> 实例方法，它只是全局 <code>Vue.set</code> 的别名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm.$set(vm.userProfile, &apos;age&apos;, 27)</span><br></pre></td></tr></table></figure>
+<h4 id="过滤和排序"><a href="#过滤和排序" class="headerlink" title="过滤和排序"></a>过滤和排序</h4><p>有时，我们想要显示一个数组的过滤或排序副本，而不实际改变或重置原始数据。在这种情况下，可以创建返回过滤或排序数组的计算属性。</p>
+<p>在计算属性不适用的情况下 (例如，在嵌套 <code>v-for</code> 循环中) 你可以使用一个 method 方法。</p>
+<h4 id="一段取值范围"><a href="#一段取值范围" class="headerlink" title="一段取值范围"></a>一段取值范围</h4><p><code>v-for</code> 也可以取整数。在这种情况下，它将重复多次模板。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">  &lt;span v-for=&quot;n in 10&quot;&gt;&#123;&#123; n &#125;&#125; &lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>渲染为：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 2 3 4 5 6 7 8 9 10</span><br></pre></td></tr></table></figure>
+<h4 id="v-for-on-a"><a href="#v-for-on-a" class="headerlink" title="v-for on a \"></a>v-for on a \<template></template></h4><p>类似于 <code>v-if</code>，你也可以利用带有 <code>v-for</code> 的 <code>&lt;template&gt;</code> 渲染多个元素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;template v-for=&quot;item in items&quot;&gt;</span><br><span class="line">    &lt;li&gt;&#123;&#123; item.msg &#125;&#125;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;divider&quot; role=&quot;presentation&quot;&gt;&lt;/li&gt;</span><br><span class="line">  &lt;/template&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
           
         
       
@@ -711,6 +1101,294 @@
 <h3 id="需要注意的问题"><a href="#需要注意的问题" class="headerlink" title="需要注意的问题"></a>需要注意的问题</h3><ul>
 <li>浏览器中读取的是dom，dom是根据html解析获取</li>
 </ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://flybids.github.io/2019/08/01/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huang Gang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Redo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/01/hello-world/" itemprop="url">Hello World</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-01T09:35:46+08:00">
+                2019-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://flybids.github.io/2019/08/01/git-高阶/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huang Gang">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Redo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/01/git-高阶/" itemprop="url">git 高阶</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-01T09:35:46+08:00">
+                2019-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="rebase和merge"><a href="#rebase和merge" class="headerlink" title="rebase和merge"></a>rebase和merge</h2><p>使用merge会使commit的历史中出现分叉，这种分叉再汇合的结构显得混乱，难以管理。此时就需要用到<b>rebase</b><i>变基</i>。</p>
+<p>rebase: 把你指定的 commit 以及它所在的 commit 串，以指定的目标 commit 为基础，依次重新提交一次。</p>
+<p>动态示意图：</p>
+<ul>
+<li><p>merge</p>
+<p><img src="/img/merge" alt="merge示意图"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge branch1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>rebase</p>
+</li>
+</ul>
+<p><img src="/img/rebase" alt="rebase示意图"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout branch1</span><br><span class="line">git rebase master</span><br></pre></td></tr></table></figure>
+<p>另外，在 rebase 之后，记得切回 master 再 merge 一下，把 master 移到最新的 commit：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">git merge branch1</span><br></pre></td></tr></table></figure>
+<p> A—B—C topic<br>         /<br>    D—E—F—G master         &gt;==git rebase master ==&gt;  </p>
+<p> A’–B’–C’ topic<br>                 /<br>    D—E—F—G master</p>
+<p>应用场景：</p>
+<p>我在主分支commit a时新建了新分支，此时开始分叉，分叉后我又在主分支改了东西commit b，此时我后悔了，我不该在commit a时分叉的，因为commit b的东西我新分支也需要，此时用衍合，就等于我丢弃原分叉，在commit b重新分叉（原分叉的改动内容当然也是带上的，没有丢）</p>
+<h2 id="commit时提交的文件存在错误"><a href="#commit时提交的文件存在错误" class="headerlink" title="commit时提交的文件存在错误"></a>commit时提交的文件存在错误</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 修正文件</span><br><span class="line">git add 1.text</span><br><span class="line"><span class="meta">#</span># 重新commit，当前commit会替换掉之前的commit</span><br><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+<h2 id="取消当前的commit"><a href="#取消当前的commit" class="headerlink" title="取消当前的commit"></a>取消当前的commit</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD^</span><br><span class="line"><span class="meta">#</span># 撤销的提交并没有消失，只是失效了</span><br></pre></td></tr></table></figure>
+<h3 id="取消之前的commit"><a href="#取消之前的commit" class="headerlink" title="取消之前的commit"></a>取消之前的commit</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rebase --onto HEAD^^ HEAD^ branch1</span><br><span class="line"><span class="meta">#</span># 以倒数第二个 commit 为起点（起点不包含在 rebase 序列里哟），branch1 为终点，</span><br><span class="line"><span class="meta">#</span># rebase 到倒数第三个 commit 上。</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 在编辑界面中删除想撤销的 commits</span><br><span class="line">git rebase -i 哪一个commit</span><br><span class="line"><span class="meta">#</span># 在 rebase 命令中直接剔除想撤销的 commits</span><br><span class="line">git rebase --onto 哪一个commit</span><br></pre></td></tr></table></figure>
+<h2 id="错误的代码push到中央仓库了"><a href="#错误的代码push到中央仓库了" class="headerlink" title="错误的代码push到中央仓库了"></a>错误的代码push到中央仓库了</h2><h3 id="错误代码还在自己的分支上"><a href="#错误代码还在自己的分支上" class="headerlink" title="错误代码还在自己的分支上"></a>错误代码还在自己的分支上</h3><p>修改或删除错误的commit,然后push</p>
+<p>如果本地在上次commit之后有了修改，再push会失败，可以强行push</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin branch1 -f</span><br></pre></td></tr></table></figure>
+<h3 id="错误代码已经合并到master"><a href="#错误代码已经合并到master" class="headerlink" title="错误代码已经合并到master"></a>错误代码已经合并到master</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 撤销错误的提交（相当于增加相反的commit，覆盖之前的commit）</span><br><span class="line">git revert HEAD^</span><br><span class="line"><span class="meta">#</span># 然后push</span><br></pre></td></tr></table></figure>
+<h2 id="reset用途"><a href="#reset用途" class="headerlink" title="reset用途"></a>reset用途</h2><p>reset命令的本质：重置HEAD和他所指向的branch的位置</p>
+<p>更具参数的不同，有不同的用途：</p>
+<ul>
+<li>–hard：重置位置的同时，清空工作目录的所有改动；</li>
+<li>–soft：重置位置的同时，保留工作目录和暂存区的内容，并把重置 HEAD 的位置所导致的新的文件差异放进暂存区。</li>
+<li>–mixed（默认）：重置位置的同时，保留工作目录的内容，并清空暂存区。</li>
+</ul>
+<h2 id="checkout-本质"><a href="#checkout-本质" class="headerlink" title="checkout 本质"></a>checkout 本质</h2><p>checkout不仅可以用来切换分支，其本质是签出指定的commit</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout branch1</span><br><span class="line">git checkout HEAD^</span><br><span class="line">git checkout master~5</span><br></pre></td></tr></table></figure>
+<p>checkout只带着head走，reset带着head和branch一起走</p>
+<h2 id="stash"><a href="#stash" class="headerlink" title="stash"></a>stash</h2><p>临时需要切换分支，当前分支的改动不想提交，但是需要暂存起来，之后切换回来时可以再取出来</p>
+<p>没有没跟踪(tack)过的（即从来没有被 add 过的文件不会被 stash 起来，因为 Git 会忽略它们），需要先add,然后stash</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 存</span><br><span class="line">git stash</span><br><span class="line"><span class="meta">#</span># 取</span><br><span class="line">git stash pop</span><br></pre></td></tr></table></figure>
+<h2 id="恢复删除的branch"><a href="#恢复删除的branch" class="headerlink" title="恢复删除的branch"></a>恢复删除的branch</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 查看历史</span><br><span class="line">git reflog</span><br><span class="line"><span class="meta">#</span># 假设HEAD 的最后一次移动行为是「从 branch1 移动到 master」。而在这之后，branch1 就被删除了。</span><br><span class="line"><span class="meta">#</span># 所以它之前的那个 commit 就是 branch1 被删除之前的位置了，也就是第二行的 c08de9a。</span><br><span class="line">git checkout c08de9a</span><br><span class="line">git checkout -b branch1</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1031,166 +1709,6 @@
 <h2 id="关于add"><a href="#关于add" class="headerlink" title="关于add"></a>关于add</h2><p>add把改动的内容放入暂存区</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 全部暂存</span><br><span class="line">git add .</span><br><span class="line"><span class="meta">#</span># 每次修改或新增后需要重新add</span><br></pre></td></tr></table></figure>
 <h2 id="看看我都干了些什么"><a href="#看看我都干了些什么" class="headerlink" title="看看我都干了些什么"></a>看看我都干了些什么</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 了解修改时间，修改人，修改动作</span><br><span class="line">git log</span><br><span class="line"><span class="meta">#</span># 还需要看到修改细节</span><br><span class="line">git log -p</span><br><span class="line"><span class="meta">#</span># 查看修改统计</span><br><span class="line">git log --stat</span><br><span class="line"><span class="meta">#</span># 查看当前commit的内容</span><br><span class="line">git show</span><br><span class="line"><span class="meta">#</span># 比较暂存区和上一次提交</span><br><span class="line">git diff --staged</span><br><span class="line"><span class="meta">#</span># 比较工作目录和暂存区</span><br><span class="line">git diff</span><br><span class="line"><span class="meta">#</span># 比较工作目录和上一次提交</span><br><span class="line">git diff HEAD</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://flybids.github.io/2019/08/01/git-高阶/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Huang Gang">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Redo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/01/git-高阶/" itemprop="url">git 高阶</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-01T09:35:46+08:00">
-                2019-08-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="rebase和merge"><a href="#rebase和merge" class="headerlink" title="rebase和merge"></a>rebase和merge</h2><p>使用merge会使commit的历史中出现分叉，这种分叉再汇合的结构显得混乱，难以管理。此时就需要用到<b>rebase</b><i>变基</i>。</p>
-<p>rebase: 把你指定的 commit 以及它所在的 commit 串，以指定的目标 commit 为基础，依次重新提交一次。</p>
-<p>动态示意图：</p>
-<ul>
-<li><p>merge</p>
-<p><img src="/img/merge" alt="merge示意图"></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge branch1</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>rebase</p>
-</li>
-</ul>
-<p><img src="/img/rebase" alt="rebase示意图"></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout branch1</span><br><span class="line">git rebase master</span><br></pre></td></tr></table></figure>
-<p>另外，在 rebase 之后，记得切回 master 再 merge 一下，把 master 移到最新的 commit：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">git merge branch1</span><br></pre></td></tr></table></figure>
-<p> A—B—C topic<br>         /<br>    D—E—F—G master         &gt;==git rebase master ==&gt;  </p>
-<p> A’–B’–C’ topic<br>                 /<br>    D—E—F—G master</p>
-<p>应用场景：</p>
-<p>我在主分支commit a时新建了新分支，此时开始分叉，分叉后我又在主分支改了东西commit b，此时我后悔了，我不该在commit a时分叉的，因为commit b的东西我新分支也需要，此时用衍合，就等于我丢弃原分叉，在commit b重新分叉（原分叉的改动内容当然也是带上的，没有丢）</p>
-<h2 id="commit时提交的文件存在错误"><a href="#commit时提交的文件存在错误" class="headerlink" title="commit时提交的文件存在错误"></a>commit时提交的文件存在错误</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 修正文件</span><br><span class="line">git add 1.text</span><br><span class="line"><span class="meta">#</span># 重新commit，当前commit会替换掉之前的commit</span><br><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
-<h2 id="取消当前的commit"><a href="#取消当前的commit" class="headerlink" title="取消当前的commit"></a>取消当前的commit</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD^</span><br><span class="line"><span class="meta">#</span># 撤销的提交并没有消失，只是失效了</span><br></pre></td></tr></table></figure>
-<h3 id="取消之前的commit"><a href="#取消之前的commit" class="headerlink" title="取消之前的commit"></a>取消之前的commit</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rebase --onto HEAD^^ HEAD^ branch1</span><br><span class="line"><span class="meta">#</span># 以倒数第二个 commit 为起点（起点不包含在 rebase 序列里哟），branch1 为终点，</span><br><span class="line"><span class="meta">#</span># rebase 到倒数第三个 commit 上。</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 在编辑界面中删除想撤销的 commits</span><br><span class="line">git rebase -i 哪一个commit</span><br><span class="line"><span class="meta">#</span># 在 rebase 命令中直接剔除想撤销的 commits</span><br><span class="line">git rebase --onto 哪一个commit</span><br></pre></td></tr></table></figure>
-<h2 id="错误的代码push到中央仓库了"><a href="#错误的代码push到中央仓库了" class="headerlink" title="错误的代码push到中央仓库了"></a>错误的代码push到中央仓库了</h2><h3 id="错误代码还在自己的分支上"><a href="#错误代码还在自己的分支上" class="headerlink" title="错误代码还在自己的分支上"></a>错误代码还在自己的分支上</h3><p>修改或删除错误的commit,然后push</p>
-<p>如果本地在上次commit之后有了修改，再push会失败，可以强行push</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin branch1 -f</span><br></pre></td></tr></table></figure>
-<h3 id="错误代码已经合并到master"><a href="#错误代码已经合并到master" class="headerlink" title="错误代码已经合并到master"></a>错误代码已经合并到master</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 撤销错误的提交（相当于增加相反的commit，覆盖之前的commit）</span><br><span class="line">git revert HEAD^</span><br><span class="line"><span class="meta">#</span># 然后push</span><br></pre></td></tr></table></figure>
-<h2 id="reset用途"><a href="#reset用途" class="headerlink" title="reset用途"></a>reset用途</h2><p>reset命令的本质：重置HEAD和他所指向的branch的位置</p>
-<p>更具参数的不同，有不同的用途：</p>
-<ul>
-<li>–hard：重置位置的同时，清空工作目录的所有改动；</li>
-<li>–soft：重置位置的同时，保留工作目录和暂存区的内容，并把重置 HEAD 的位置所导致的新的文件差异放进暂存区。</li>
-<li>–mixed（默认）：重置位置的同时，保留工作目录的内容，并清空暂存区。</li>
-</ul>
-<h2 id="checkout-本质"><a href="#checkout-本质" class="headerlink" title="checkout 本质"></a>checkout 本质</h2><p>checkout不仅可以用来切换分支，其本质是签出指定的commit</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git checkout branch1</span><br><span class="line">git checkout HEAD^</span><br><span class="line">git checkout master~5</span><br></pre></td></tr></table></figure>
-<p>checkout只带着head走，reset带着head和branch一起走</p>
-<h2 id="stash"><a href="#stash" class="headerlink" title="stash"></a>stash</h2><p>临时需要切换分支，当前分支的改动不想提交，但是需要暂存起来，之后切换回来时可以再取出来</p>
-<p>没有没跟踪(tack)过的（即从来没有被 add 过的文件不会被 stash 起来，因为 Git 会忽略它们），需要先add,然后stash</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 存</span><br><span class="line">git stash</span><br><span class="line"><span class="meta">#</span># 取</span><br><span class="line">git stash pop</span><br></pre></td></tr></table></figure>
-<h2 id="恢复删除的branch"><a href="#恢复删除的branch" class="headerlink" title="恢复删除的branch"></a>恢复删除的branch</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span># 查看历史</span><br><span class="line">git reflog</span><br><span class="line"><span class="meta">#</span># 假设HEAD 的最后一次移动行为是「从 branch1 移动到 master」。而在这之后，branch1 就被删除了。</span><br><span class="line"><span class="meta">#</span># 所以它之前的那个 commit 就是 branch1 被删除之前的位置了，也就是第二行的 c08de9a。</span><br><span class="line">git checkout c08de9a</span><br><span class="line">git checkout -b branch1</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1568,370 +2086,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://flybids.github.io/2019/08/01/CSS查漏补缺/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Huang Gang">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Redo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/01/CSS查漏补缺/" itemprop="url">CSS查漏补缺（一）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-01T09:35:46+08:00">
-                2019-08-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li><p>CSS样式叠加问题</p>
-</li>
-<li><p>选择器的分类和权重计算</p>
-<ul>
-<li><p>权重计算</p>
-<ul>
-<li>ID选择器 +100</li>
-<li>类 属性 伪类 +10</li>
-<li>元素 伪元素 +1</li>
-<li>其他 +0</li>
-<li>需要注意的是，<strong>计算的时候不进位，权重低的不能通过数量来战胜权重高的</strong></li>
-<li>！important最高</li>
-<li>元素属性的优先级高</li>
-<li>相同权重 后面写的会覆盖前面写的</li>
-</ul>
-</li>
-<li><p>分类：</p>
-<ul>
-<li>类选择器.name{}，</li>
-<li>元素选择器a{}，</li>
-<li>伪元素选择器::before{}, 真实存在的元素,<strong>老旧的IE用单冒号</strong></li>
-<li>属性选择器[type=radio]{}</li>
-<li>伪类选择器 :hover{} 某种状态下</li>
-<li>ID选择器</li>
-<li>组合选择器[type=checkbox]+label{}</li>
-<li>否定选择器 :not(.link){}</li>
-<li>通用选择器 *{}</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>浏览器对css的解析方式是从右到左，反过来的；这是出于对性能的考虑，更快的找到元素。</p>
-</li>
-<li><p>非布局样式</p>
-<ul>
-<li><p>字相关</p>
-<ul>
-<li><p>多字体 fallback,一个字体找不到，用下一个字体,<b>针对的是每一个字符</b></p>
-</li>
-<li><p>使用网络字体， 自定义字体 (用于字体图标，宣传品牌banner等固定文案)</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">font-face</span>&#123;</span><br><span class="line">    <span class="attribute">font-family</span>:<span class="string">"IF"</span>,</span><br><span class="line">    src: <span class="built_in">url</span>(<span class="string">"地址"</span>) // 可以本地，也可以远程</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.test</span>&#123;</span><br><span class="line">    <span class="attribute">font-family</span>:IF;</span><br><span class="line">&#125;</span><br><span class="line">// 使用远程字体时，需要对应远程字体运行跨域</span><br><span class="line">// 远程也可以先用link引入，然后直接使用</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>iconfont</p>
-<p>可以参考阿里矢量库</p>
-</li>
-<li><p>字体族：一堆的字体；<strong>不能加引号</strong></p>
-<ul>
-<li><p>衬线字体 宋体等 serif</p>
-</li>
-<li><p>非衬线字体 笔画起收规则的，如黑体 sans-serif</p>
-</li>
-<li><p>等宽字体  每个字符宽度相同 monospace</p>
-</li>
-<li><p>非等宽字体</p>
-</li>
-<li><p>手写体 cursive</p>
-</li>
-<li><p>花体 fantasy</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.name</span>&#123;</span><br><span class="line">    <span class="attribute">font-family</span>:<span class="string">"PingFang SC"</span>,serif;</span><br><span class="line">&#125;</span><br><span class="line">// serif 是字体族 PingFang SC是字体名称</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>背景和边框</p>
-<ul>
-<li><p>边框</p>
-<ul>
-<li><p>属性：线型 大小(solid dashed dotted)  颜色</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">border</span>: 1<span class="selector-tag">px</span> <span class="selector-tag">solid</span> <span class="selector-tag">blue</span>;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>边框背景图</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">border</span>: 30<span class="selector-tag">px</span> <span class="selector-tag">solid</span> <span class="selector-tag">transprant</span>;</span><br><span class="line">border-image:url('../test.png') 30 round  // 不常用</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>边框衔接 三角形 斜切</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">border-bottom</span><span class="selector-pseudo">:30px</span> <span class="selector-tag">solid</span> <span class="selector-tag">red</span>;</span><br><span class="line"><span class="selector-tag">border-right</span><span class="selector-pseudo">:30px</span> <span class="selector-tag">solid</span> <span class="selector-tag">blue</span>;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>背景</p>
-<ul>
-<li><p>背景颜色</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">test1</span>&#123;</span><br><span class="line">    background: red; // 少用</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">test2</span>&#123;</span><br><span class="line">    <span class="attribute">background</span>:<span class="built_in">rgb</span>(1,2,3) // 不适合人眼，rgba透明度</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">test3</span>&#123;</span><br><span class="line">    <span class="attribute">background</span>:<span class="built_in">hsl</span>(0,100%,50%) // 颜色 饱和度 亮度，适合人眼 hsla透明度</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">test4</span>&#123;</span><br><span class="line">    <span class="attribute">background</span>:<span class="built_in">url</span>(<span class="string">'../img/1.png'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>渐变色背景css3,渐变可以当做图片背景，可以使用background-size属性等</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.c1</span>&#123;</span><br><span class="line">    <span class="attribute">background</span>:<span class="built_in">linear-gradient</span>(to right,red,green) // 左到右</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.c2</span>&#123;</span><br><span class="line">    <span class="attribute">background</span>:<span class="built_in">linear-gradient</span>(0deg,red,green) // 下到上， <span class="number">45</span>左下角到右下角</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.c3</span>&#123;</span><br><span class="line">    // 左到右,可以多个颜色</span><br><span class="line">    <span class="selector-tag">background</span><span class="selector-pseudo">:linear-gradient(to</span> <span class="selector-tag">right</span>,<span class="selector-tag">red</span> 0,<span class="selector-tag">green</span> 10%,<span class="selector-tag">yellow</span> 100%) </span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.c4</span>&#123;</span><br><span class="line">    // 叠加</span><br><span class="line">    <span class="selector-tag">background</span><span class="selector-pseudo">:linear-gradient(135deg</span>,<span class="selector-tag">transparent</span> 0,<span class="selector-tag">transparent</span> 45%, <span class="selector-tag">red</span> 45%, <span class="selector-tag">transparent</span> 100%)，<span class="selector-tag">linear-gradient</span>(135<span class="selector-tag">deg</span>,<span class="selector-tag">transparent</span> 0,<span class="selector-tag">transparent</span> 45%, <span class="selector-tag">red</span> 45%, <span class="selector-tag">transparent</span> 100%)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>多背景叠加css3</p>
-</li>
-<li><p>背景图片和属性 雪碧图 性能优化,减少http请求数，提高加载性能</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attribute">background</span>:red <span class="built_in">url</span>(<span class="string">'../q.png'</span>) // 图片平铺，改在颜色上面</span><br><span class="line">    // <span class="built_in">background-repeat</span>(no-repeat,repeat-x等值）</span><br><span class="line">    // background-position(center,top,20px等) , 坐标位置（相对于容器，取反数，一般负数）</span><br><span class="line">    // background-size 缩小放大等等，缩小可以用来适配移动端好分辨率，比如分辨率三倍，就图片像素增加三倍，size缩小三倍</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>base64 和性能优化</p>
-<p>减少了http的请求</p>
-<p>将图片转换为base64文本，使用javascript或工具进行转换；增大了解码的开销，体积增大三分之一，所以一般用于小图标，小图片。</p>
-<p>项目中使用base64的时候，在打包的时候把图片转成base64</p>
-</li>
-<li><p>多分辨率适配</p>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>滚动 换行</p>
-<ul>
-<li><p>文字折行</p>
-<ul>
-<li><p>overflow-wrap 兼容性不好，一般写word-wrap，通用换行（是否保留单词）</p>
-</li>
-<li><p>word-break 针对多字节文字（中文橘子也是单词）</p>
-</li>
-<li><p>white-space 空白处是否换行</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attribute">word-break</span>: normal; </span><br><span class="line">    // break-word 对单词可以换行 break-all 所有单词都可以换行 keep-all 所有单词都保留完整</span><br><span class="line">    <span class="selector-tag">overflow-wrap</span><span class="selector-pseudo">:normal</span>;</span><br><span class="line">    <span class="selector-tag">white-space</span><span class="selector-pseudo">:normal</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>滚动： 内容比容器多</p>
-<p>滚动行为 滚动条 (visible超出可见  hidden超出隐藏  scroll有滚动条 auto看情况滚动条)</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">overflow:hidden; // 默认auto</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>粗体 斜体 下划线</p>
-<p>这都是些装饰性属性。</p>
-<p>font-weight:lighter  normal=400  bold=700  bolder  100 (100到900，取x00,有兼容性)，一般normal或者bold, lighter bolder不同浏览器设备显示有差别</p>
-<p>font-style: itatic 斜体</p>
-<p>text-decoration</p>
-<p>cursor</p>
-</li>
-<li><p>其他</p>
-<ul>
-<li>行高 line-height<ul>
-<li>行高的构成: 一行的最大行高可以撑起外层盒子的高度（line-box包含inline-box)，可以基于这个实现垂直居中。</li>
-<li>行高相关的现象和方案： 行内元素默认baseline对齐；在设置对齐方式时，每个行内元素都要设置vertical-align,vertical-align也可以使用数字（此时是相对于baseline的位置）；</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>布局 layout</p>
-<ul>
-<li><p>简介</p>
-<ul>
-<li>早期以table为主，但是用户等待时间更长，语义不明确；后期以技巧性地布局为主（本来不是用来布局的东西）</li>
-</ul>
-<ul>
-<li><p>现在有flexbox， grid, 响应式布局</p>
-</li>
-<li><p>常见布局方法： table, float+margin, inline-block,flexbox</p>
-</li>
-</ul>
-</li>
-<li><p>盒模型 content padding border margin (height,width指content)</p>
-<ul>
-<li>display(block,inline,inline-block)  position(static, absolute脱离文档流,fixed脱离文档流,relative,<i>sticky</i><span style="color:'red'">新的属性</span>,还有inherit) </li>
-<li><p><strong>z-index只对定位元素有效</strong>，什么是定位元素呢？说简单点就是设置了position属性的元素，position的属性值如下：absolute-绝对定位、relative-相对定位、fixed-固定定位、inherit-继承父元素定位，static-静态定位。这里要注意，并不是所有的定位设置都有效果，absolute、relative和fixed是肯定有效果的，inherit取决于父元素，如果父元素没有设置定位则z-index无效，注意低版本IE浏览器不支持这个值。最后说下static这个静态定位，其实这是默认值，表示当前元素不进行定位，所以如果元素设置了这个属性值，其实是和没有设置是一样的，会使元素忽略掉z-index属性，使其不起作用。</p>
-</li>
-<li><p>盒模型</p>
-<p>content padding border margin (height,width指content)</p>
-</li>
-</ul>
-</li>
-<li><p>flexbox</p>
-<ul>
-<li><p>弹性盒子</p>
-</li>
-<li><p>盒子本来就是并列的，指定宽度就可</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.item0</span>&#123;</span><br><span class="line">    flex:1; 占据box的一份 </span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.itm1</span>&#123;</span><br><span class="line">    <span class="attribute">flex</span>: none;</span><br><span class="line">    width:70px; 占70px宽带</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box</span>&#123;</span><br><span class="line">    <span class="attribute">display</span>:flex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>flexbox还有其他的属性,由于兼容性的问题，还没有被大规模使用，移动端兼容性更好</p>
-</li>
-</ul>
-</li>
-<li><p>float布局</p>
-<ul>
-<li><p>元素浮动，脱离文档流（不对其他元素布局起作用），但是不脱离文本流（会排挤其他元素的文本）</p>
-</li>
-<li><p>形成块（BFC),宽和高自己定，位置尽量（上，左（右））</p>
-</li>
-<li><p>相当于从父级消失，可能导致父级的高度塌陷</p>
-</li>
-<li><p>可以使用伪元素清楚浮动</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">cls</span><span class="selector-pseudo">::after</span>&#123;</span><br><span class="line">    <span class="attribute">display</span>:block;</span><br><span class="line">    <span class="attribute">content</span>:<span class="string">''</span>;</span><br><span class="line">    <span class="attribute">visibity</span>: hidden;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">0</span>;</span><br><span class="line">    <span class="attribute">clear</span>:both;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>问题：float + margin 三栏布局</p>
-</li>
-</ul>
-</li>
-<li><p>inline-block 布局</p>
-<ul>
-<li><p>像文本一样排block元素，但是需要处理间隙问题</p>
-</li>
-<li><p>解决间隙问题：父元素字体大小设为0，里面的字体再设回来；或者再代码里面，两个inline-block之间没有空格，或者加上注释占用空格</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">test1</span>&#123;</span><br><span class="line">    <span class="attribute">font-size </span>:<span class="number">0</span>;</span><br><span class="line">    <span class="selector-class">.child1</span>&#123;</span><br><span class="line">        <span class="attribute">font-size</span>:<span class="number">14px</span>;</span><br><span class="line">        <span class="attribute">display</span>:inline-block;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.child2</span>&#123;</span><br><span class="line">        <span class="attribute">font-size</span>:<span class="number">13px</span>;</span><br><span class="line">        <span class="attribute">display</span>:inline-block;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"display:inline-block;"</span>&gt;</span></span><br><span class="line">    123</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"display:inline-block"</span>&gt;</span></span><br><span class="line">    456</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>响应式布局</p>
-<ul>
-<li><p>再不同设备上正常使用，一般针对屏幕大小。主要的方法包括：</p>
-<ul>
-<li><p>隐藏一些东西 + 折行 + 留下自适应空间</p>
-</li>
-<li><p>rem, viewport , media query</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width,initial-scale=1.0"</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=320"</span>&gt;</span></span><br><span class="line">....</span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="css">    @<span class="keyword">media</span> (max-width:<span class="number">640px</span>)&#123;</span></span><br><span class="line"><span class="css">		<span class="selector-class">.left</span>&#123;</span></span><br><span class="line"><span class="css">			<span class="selector-tag">display</span><span class="selector-pseudo">:none</span>;</span></span><br><span class="line"><span class="undefined">		&#125;</span></span><br><span class="line"><span class="undefined">	&#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>12</p>
-</li>
-<li><p>table 布局</p>
-<ul>
-<li><p>直接用表格</p>
-</li>
-<li><p>仿照表格的样式</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-cell</span>;</span><br><span class="line"><span class="selector-tag">display</span>: <span class="selector-tag">table-row</span>;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>CSS Hack 兼容浏览器，不合法但是生效的写法，难理解，难维护，容易失效，hack属性要写在正常属性后面</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.test</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</span><br><span class="line">	<span class="attribute">width</span>:<span class="number">100px</span>\<span class="number">9</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>替代方案：特性检测，针对性加class,更推荐</p>
-</li>
-<li><p>如何优化checkbox</p>
-<ul>
-<li>label[for] 和 id</li>
-<li>隐藏元素input</li>
-<li>:checked + label</li>
-</ul>
-</li>
-<li><p>12</p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1977,7 +2136,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1990,7 +2149,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
